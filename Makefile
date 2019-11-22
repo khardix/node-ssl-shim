@@ -13,12 +13,19 @@ CFLAGS += $(shell pkg-config --cflags openssl)
 LDFLAGS += $(shell pkg-config --libs-only-L openssl)
 LDLIBS += $(shell pkg-config --libs-only-l openssl)
 
-.PHONY: all archive clean
+.PHONY: all archive clean test
 
-all: lib$(PKGNAME).a
+all: lib$(PKGNAME).a test/suite
 archive: $(PKGNAME).tar.gz
+test: test/suite
+	@./$<
 
 lib$(PKGNAME).a: lib$(PKGNAME).a($(objects))
+
+test/suite: CFLAGS += $(shell pkg-config --cflags check)
+test/suite: LDLIBS += $(shell pkg-config --libs check)
+test/suite: lib$(PKGNAME).a $(addsuffix .o,$(basename $(wildcard test/*.c)))
+	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 dist/: lib$(PKGNAME).a $(headers)
 	install -Dt $@ -m 0755 $<
@@ -29,5 +36,6 @@ $(PKGNAME).tar.gz: dist/
 
 clean:
 	$(RM) -r $(PKGNAME).tar.gz dist/
+	$(RM) test/suite test/*.o
 	$(RM) lib$(PKGNAME).a
 	$(RM) $(objects)
