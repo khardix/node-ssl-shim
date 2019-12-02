@@ -24,7 +24,7 @@ lib$(PKGNAME).a: lib$(PKGNAME).a($(objects))
 
 test/suite: CFLAGS += $(shell pkg-config --cflags check)
 test/suite: LDLIBS += $(shell pkg-config --libs check)
-test/suite: lib$(PKGNAME).a $(addsuffix .o,$(basename $(wildcard test/*.c)))
+test/suite: $(addsuffix .o,$(basename $(wildcard test/*.c))) lib$(PKGNAME).a
 	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 dist/: lib$(PKGNAME).a $(headers)

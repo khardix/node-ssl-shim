@@ -37,6 +37,9 @@
 #define ERR_LIB_KDF 52
 #define ERR_LIB_SM2 53
 
+/* Protocol versions */
+#define TLS1_3_VERSION 0x0304
+
 #endif /* OPENSSL_IS_LEGACY */
 
 #endif /* _NODE_SSL_SHIM_CONSTANTS_H_ */

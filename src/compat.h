@@ -32,10 +32,18 @@
 
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
+#include <openssl/ssl.h>
 
 #include "features.h"
 
 #if OPENSSL_IS_LEGACY
+
+/** Version-flexible TLS method. */
+const SSL_METHOD *TLS_method();
+/** Version-flexible TLS server method. */
+const SSL_METHOD *TLS_server_method();
+/** Version-flexible TLS client method. */
+const SSL_METHOD *TLS_client_method();
 
 /** Fill a contiguous memory with 0s and then free it. */
 void OPENSSL_clear_free(void *memory, size_t len);

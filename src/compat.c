@@ -32,6 +32,21 @@
 
 #if OPENSSL_IS_LEGACY
 
+const SSL_METHOD *TLS_method()
+{
+	return SSLv23_method();
+}
+
+const SSL_METHOD *TLS_server_method()
+{
+	return SSLv23_server_method();
+}
+
+const SSL_METHOD *TLS_client_method()
+{
+	return SSLv23_client_method();
+}
+
 /** Fill a contiguous memory with 0s and then free it. */
 void OPENSSL_clear_free(void *memory, size_t len)
 {
