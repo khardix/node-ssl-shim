@@ -36,6 +36,11 @@
 #define OPENSSL_NO_OCB
 #define OPENSSL_NO_SCRYPT
 
+/* Pretending that this is BoringSSL also disables
+ * more advanced OpenSSL features that we generally do not support.
+ */
+#define OPENSSL_IS_BORINGSSL
+
 #endif /* OPENSSL_IS_LEGACY */
 
 #endif /* _NODE_SSL_SHIM_FEATURES_H_ */
