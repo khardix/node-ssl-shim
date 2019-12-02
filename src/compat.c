@@ -28,6 +28,8 @@
  * <https://wiki.openssl.org/index.php/OpenSSL_1.1.0_Changes>.
  */
 
+#include <stdatomic.h>
+
 #include "compat.h"
 
 #if OPENSSL_IS_LEGACY
@@ -45,6 +47,29 @@ const SSL_METHOD *TLS_server_method()
 const SSL_METHOD *TLS_client_method()
 {
 	return SSLv23_client_method();
+}
+
+/** Atomically increase reference count for X509. */
+int X509_up_ref(X509 *x)
+{
+	if (x == NULL) {
+		return 0;
+	}
+
+	int prev = atomic_fetch_add_explicit((_Atomic int *)&x->references, 1,
+					     memory_order_relaxed);
+	return (prev > 1) ? 1 : 0;
+}
+/** Atomically increase reference count for X509_STORE. */
+int X509_STORE_up_ref(X509_STORE *xs)
+{
+	if (xs == NULL) {
+		return 0;
+	}
+
+	int prev = atomic_fetch_add_explicit((_Atomic int *)&xs->references, 1,
+					     memory_order_relaxed);
+	return (prev > 1) ? 1 : 0;
 }
 
 /** Fill a contiguous memory with 0s and then free it. */

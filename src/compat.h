@@ -33,6 +33,7 @@
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 #include <openssl/ssl.h>
+#include <openssl/x509.h>
 
 #include "features.h"
 
@@ -44,6 +45,10 @@ const SSL_METHOD *TLS_method();
 const SSL_METHOD *TLS_server_method();
 /** Version-flexible TLS client method. */
 const SSL_METHOD *TLS_client_method();
+
+/** Increment X509 certificate reference. */
+int X509_up_ref(X509 *x);
+int X509_STORE_up_ref(X509_STORE *x);
 
 /** Fill a contiguous memory with 0s and then free it. */
 void OPENSSL_clear_free(void *memory, size_t len);
