@@ -28,7 +28,7 @@
 #define _NODE_SSL_SHIM_FEATURES_H_
 
 /** The OpenSSL is old enough to require this library. */
-#define OPENSSL_IS_LEGACY OPENSSL_VERSION_NUMBER < 0x10100000L
+#define OPENSSL_IS_LEGACY (OPENSSL_VERSION_NUMBER < 0x10100000L)
 
 /** The following features are not supported by legacy OpenSSL */
 #if OPENSSL_IS_LEGACY
