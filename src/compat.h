@@ -50,6 +50,13 @@ const SSL_METHOD *TLS_client_method();
 int X509_up_ref(X509 *x);
 int X509_STORE_up_ref(X509_STORE *x);
 
+/** Retrieve Diffie-Hellman p, q, and g parameters. */
+void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
+		 const BIGNUM **g);
+/** Retrieve RSA key parameters. */
+void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
+		  const BIGNUM **d);
+
 /** Fill a contiguous memory with 0s and then free it. */
 void OPENSSL_clear_free(void *memory, size_t len);
 

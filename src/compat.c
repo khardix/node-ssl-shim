@@ -72,6 +72,43 @@ int X509_STORE_up_ref(X509_STORE *xs)
 	return (prev > 1) ? 1 : 0;
 }
 
+/** Retrieve Diffie-Hellman p, q, and g parameters. */
+void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
+		 const BIGNUM **g)
+{
+	if (dh == NULL) {
+		return;
+	}
+
+	if (p != NULL) {
+		*p = dh->p;
+	}
+	if (q != NULL) {
+		*q = dh->q;
+	}
+	if (g != NULL) {
+		*g = dh->g;
+	}
+}
+/** Retrieve RSA key parameters. */
+void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
+		  const BIGNUM **d)
+{
+	if (r == NULL) {
+		return;
+	}
+
+	if (n != NULL) {
+		*n = r->n;
+	}
+	if (e != NULL) {
+		*e = r->e;
+	}
+	if (d != NULL) {
+		*d = r->d;
+	}
+}
+
 /** Fill a contiguous memory with 0s and then free it. */
 void OPENSSL_clear_free(void *memory, size_t len)
 {
