@@ -22,17 +22,44 @@
  * SOFTWARE.
  */
 
-/** @file Include-everything header for the Node-SSL-shim. */
+/** @file Eliptic Curve compatibility layer for legacy OpenSSL. */
 
-#ifndef _NODE_SSL_SHIM_SSL_SHIM_H_
-#define _NODE_SSL_SHIM_SSL_SHIM_H_
+#include <openssl/bn.h>
 
-#include "features.h"
-#include "constants.h"
-
-#include "compat.h"
 #include "ec.h"
-#include "tls.h"
-#include "x509.h"
 
-#endif /* _NODE_SSL_SHIM_SSL_SHIM_H_ */
+#if OPENSSL_IS_LEGACY
+
+/** Measure the number of bits of the group's order.
+ *
+ * If the number of bits cannot be measured for any reason, 0 is returned.
+ */
+int EC_GROUP_order_bits(const EC_GROUP *group)
+{
+	int result = 0;
+
+	if (group == NULL) {
+		return result;
+	}
+
+	BIGNUM *order = BN_new();
+	BN_CTX *context = BN_CTX_new();
+	if (order == NULL || context == NULL) {
+		goto cleanup;
+	}
+
+	int ec = EC_GROUP_get_order(group, order, context);
+	if (ec != 1) {
+		goto cleanup;
+	}
+
+	result = BN_num_bits(order);
+
+cleanup:
+	BN_CTX_free(context);
+	BN_free(order);
+
+	return result;
+}
+
+#endif /* OPENSSL_IS_LEGACY */
