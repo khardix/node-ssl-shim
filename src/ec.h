@@ -32,6 +32,17 @@
 
 #include <openssl/ec.h>
 
+/* EC constants – taken from upstream */
+#define NID_rsassaPss 912
+#define NID_X25519 1034
+#define NID_X448 1035
+#define NID_ED25519 1087
+#define NID_ED448 1088
+
+#define EVP_PKEY_RSA_PSS NID_rsassaPss
+#define EVP_PKEY_X25519 NID_X25519
+#define EVP_PKEY_X448 NID_X448
+
 /** Measure the number of bits of the group's order. */
 int EC_GROUP_order_bits(const EC_GROUP *group);
 
