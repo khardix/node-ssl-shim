@@ -40,6 +40,25 @@
 /* Protocol versions */
 #define TLS1_3_VERSION 0x0304
 
+/* Cipher identifiers */
+#define NID_rsassaPss 912
+#define NID_chacha20_poly1305 1018
+#define NID_X25519 1034
+#define NID_X448 1035
+#define NID_ED25519 1087
+#define NID_ED448 1088
+
+#define EVP_PKEY_RSA_PSS NID_rsassaPss
+#define EVP_PKEY_X25519 NID_X25519
+#define EVP_PKEY_X448 NID_X448
+#define EVP_PKEY_ED25519 NID_ED25519
+#define EVP_PKEY_ED448 NID_ED448
+
+/* Renamed control codes */
+#define EVP_CTRL_AEAD_GET_TAG EVP_CTRL_GCM_GET_TAG
+#define EVP_CTRL_AEAD_SET_IVLEN EVP_CTRL_GCM_SET_IVLEN
+#define EVP_CTRL_AEAD_SET_TAG EVP_CTRL_GCM_SET_TAG
+
 #endif /* OPENSSL_IS_LEGACY */
 
 #endif /* _NODE_SSL_SHIM_CONSTANTS_H_ */
