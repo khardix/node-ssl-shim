@@ -39,6 +39,10 @@ const SSL_METHOD *TLS_server_method();
 /** Version-flexible TLS client method. */
 const SSL_METHOD *TLS_client_method();
 
+/** Obtain pointer to session ticket and it's length. */
+void SSL_SESSION_get0_ticket(const SSL_SESSION *s, const unsigned char **tick,
+			     size_t *len);
+
 #endif /* OPENSSL_IS_LEGACY */
 
 #endif /* _NODE_SSL_SHIM_TLS_H_ */
