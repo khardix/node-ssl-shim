@@ -22,38 +22,24 @@
  * SOFTWARE.
  */
 
-/** @file Compatibility layer for legacy OpenSSL.
- *
- * All definitions are taken from official OpenSSL wiki:
- * <https://wiki.openssl.org/index.php/OpenSSL_1.1.0_Changes>.
- */
-#ifndef _NODE_SSL_SHIM_COMPAT_H_
-#define _NODE_SSL_SHIM_COMPAT_H_
+/** @file Implementation of TLS compatibility layer for legacy OpenSSL. */
 
-#include <openssl/dh.h>
-#include <openssl/evp.h>
-#include <openssl/hmac.h>
-#include <openssl/rsa.h>
-
-#include "features.h"
-
+#include "tls.h"
 #if OPENSSL_IS_LEGACY
 
-/** Retrieve Diffie-Hellman p, q, and g parameters. */
-void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
-		 const BIGNUM **g);
-/** Retrieve RSA key parameters. */
-void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
-		  const BIGNUM **d);
+const SSL_METHOD *TLS_method()
+{
+	return SSLv23_method();
+}
 
-/** Fill a contiguous memory with 0s and then free it. */
-void OPENSSL_clear_free(void *memory, size_t len);
+const SSL_METHOD *TLS_server_method()
+{
+	return SSLv23_server_method();
+}
 
-/** Cleans up digest context ctx and frees up the space allocated to it. */
-void EVP_MD_CTX_free(EVP_MD_CTX *ctx);
-/** Erase the key and any other data from the context and free it. */
-void HMAC_CTX_free(HMAC_CTX *ctx);
+const SSL_METHOD *TLS_client_method()
+{
+	return SSLv23_client_method();
+}
 
 #endif /* OPENSSL_IS_LEGACY */
-
-#endif /* _NODE_SSL_SHIM_COMPAT_H_ */
