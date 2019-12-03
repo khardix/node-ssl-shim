@@ -43,6 +43,9 @@ const SSL_METHOD *TLS_client_method();
 void SSL_SESSION_get0_ticket(const SSL_SESSION *s, const unsigned char **tick,
 			     size_t *len);
 
+/** Determine status of TLS extension. */
+long SSL_get_tlsext_status_type(SSL *s);
+
 #endif /* OPENSSL_IS_LEGACY */
 
 #endif /* _NODE_SSL_SHIM_TLS_H_ */

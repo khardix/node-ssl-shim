@@ -58,4 +58,17 @@ void SSL_SESSION_get0_ticket(const SSL_SESSION *s, const unsigned char **tick,
 	}
 }
 
+/** Determine status of TLS extension.
+ *
+ * @return The TLSext status, or -1 in case of error.
+ */
+long SSL_get_tlsext_status_type(SSL *s)
+{
+	if (s == NULL) {
+		return -1l;
+	} else {
+		return s->tlsext_status_type;
+	}
+}
+
 #endif /* OPENSSL_IS_LEGACY */
