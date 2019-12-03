@@ -24,8 +24,11 @@
 
 /** @file Compatibility layer for legacy OpenSSL.
  *
- * All definitions are taken from official OpenSSL wiki:
+ * Most of the definitions are taken from official OpenSSL wiki:
  * <https://wiki.openssl.org/index.php/OpenSSL_1.1.0_Changes>.
+ *
+ * Other functions defined here are miscellaneous ones
+ * that do not warrant a separate file (yet).
  */
 #ifndef _NODE_SSL_SHIM_COMPAT_H_
 #define _NODE_SSL_SHIM_COMPAT_H_
@@ -45,6 +48,9 @@ void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
 /** Retrieve RSA key parameters. */
 void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
 		  const BIGNUM **d);
+
+/** Increment reference count of a private key. */
+int EVP_PKEY_up_ref(EVP_PKEY *key);
 
 /** Fill a contiguous memory with 0s and then free it. */
 void OPENSSL_clear_free(void *memory, size_t len);

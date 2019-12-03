@@ -24,7 +24,8 @@
 
 /** @file Implementation of X509 compatibility layer for legacy OpenSSL. */
 
-#include <stdatomic.h>
+/* Legacy OpenSSL does not use std atomics. */
+#include <openssl/crypto.h>
 
 #include "x509.h"
 
@@ -37,8 +38,7 @@ int X509_up_ref(X509 *x)
 		return 0;
 	}
 
-	int prev = atomic_fetch_add_explicit((_Atomic int *)&x->references, 1,
-					     memory_order_relaxed);
+	int prev = CRYPTO_add(&x->references, 1, CRYPTO_LOCK_X509);
 	return (prev > 1) ? 1 : 0;
 }
 /** Atomically increase reference count for X509_STORE. */
@@ -48,8 +48,7 @@ int X509_STORE_up_ref(X509_STORE *xs)
 		return 0;
 	}
 
-	int prev = atomic_fetch_add_explicit((_Atomic int *)&xs->references, 1,
-					     memory_order_relaxed);
+	int prev = CRYPTO_add(&xs->references, 1, CRYPTO_LOCK_X509_STORE);
 	return (prev > 1) ? 1 : 0;
 }
 

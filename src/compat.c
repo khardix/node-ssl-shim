@@ -28,6 +28,8 @@
  * <https://wiki.openssl.org/index.php/OpenSSL_1.1.0_Changes>.
  */
 
+#include <openssl/crypto.h>
+
 #include "compat.h"
 
 #if OPENSSL_IS_LEGACY
@@ -67,6 +69,17 @@ void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
 	if (d != NULL) {
 		*d = r->d;
 	}
+}
+
+/** Increment reference count of a private key. */
+int EVP_PKEY_up_ref(EVP_PKEY *key)
+{
+	if (key == NULL) {
+		return 0;
+	}
+
+	int prev = CRYPTO_add(&key->references, 1, CRYPTO_LOCK_EVP_PKEY);
+	return (prev > 1) ? 1 : 0;
 }
 
 /** Fill a contiguous memory with 0s and then free it. */
