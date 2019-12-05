@@ -58,6 +58,12 @@ EVP_MD_CTX *EVP_MD_CTX_new();
 /** Retrieve Diffie-Hellman p, q, and g parameters. */
 void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
 		 const BIGNUM **g);
+/** Set Diffie-Hellman p, q, and g parameters. */
+int DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g);
+/** Retrieve public and private keys from DH structure. */
+void DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM **priv_key);
+/** Set Diffie-Hellman public and/or private keys. */
+int DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key);
 /** Retrieve RSA key parameters. */
 void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
 		  const BIGNUM **d);

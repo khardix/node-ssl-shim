@@ -103,6 +103,73 @@ void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
 		*g = dh->g;
 	}
 }
+/** Set Diffie-Hellman p, q, and g parameters.
+ *
+ * If the fields p and/or g in dh are NULL,
+ * the corresponding parameter must not be NULL.
+ * The q field may remain NULL.
+ */
+int DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g)
+{
+	if (dh == NULL || (dh->p == NULL && p == NULL) ||
+	    (dh->g == NULL && g == NULL)) {
+		return 0;
+	}
+
+	if (p != NULL) {
+		BN_free(dh->p);
+		dh->p = p;
+	}
+	if (q != NULL) {
+		BN_free(dh->q);
+		dh->q = q;
+	}
+	if (g != NULL) {
+		BN_free(dh->g);
+		dh->g = g;
+	}
+
+	if (q != NULL) {
+		dh->length = BN_num_bits(q);
+	}
+
+	return 1;
+}
+/** Retrieve public and private keys from DH structure. */
+void DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM **priv_key)
+{
+	if (dh == NULL) {
+		return;
+	}
+	if (pub_key != NULL) {
+		*pub_key = dh->pub_key;
+	}
+	if (priv_key != NULL) {
+		*priv_key = dh->priv_key;
+	}
+}
+/** Set Diffie-Hellman public and/or private keys.
+ *
+ * If the pub_key field in dh is NULL, the pub_key parameter must not be NULL.
+ * priv_key field may be left NULL.
+ */
+int DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key)
+{
+	if (dh == NULL || (dh->pub_key == NULL && pub_key == NULL)) {
+		return 0;
+	}
+
+	if (pub_key != NULL) {
+		BN_free(dh->pub_key);
+		dh->pub_key = pub_key;
+	}
+	if (priv_key != NULL) {
+		BN_free(dh->priv_key);
+		dh->priv_key = priv_key;
+	}
+
+	return 1;
+}
 /** Retrieve RSA key parameters. */
 void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
 		  const BIGNUM **d)
