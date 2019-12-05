@@ -28,11 +28,42 @@
  * <https://wiki.openssl.org/index.php/OpenSSL_1.1.0_Changes>.
  */
 
+#include <string.h>
+
 #include <openssl/crypto.h>
 
 #include "compat.h"
 
 #if OPENSSL_IS_LEGACY
+
+/** Allocate and zero-fill a continuous chunk of memory. */
+void *OPENSSL_zalloc(size_t size)
+{
+	void *memory = OPENSSL_malloc(size);
+
+	if (memory != NULL) {
+		memset(memory, 0, size); // NOLINT – C11 provides memset_s
+	}
+
+	return memory;
+}
+
+/** Create new HMAC_CTX. */
+HMAC_CTX *HMAC_CTX_new()
+{
+	HMAC_CTX *ctx = OPENSSL_zalloc(sizeof(HMAC_CTX));
+	if (ctx != NULL) {
+		HMAC_CTX_init(ctx);
+	}
+
+	return ctx;
+}
+
+/** Create new EVP_MD_CTX. */
+EVP_MD_CTX *EVP_MD_CTX_new()
+{
+	return OPENSSL_zalloc(sizeof(EVP_MD_CTX));
+}
 
 /** Retrieve Diffie-Hellman p, q, and g parameters. */
 void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,

@@ -42,6 +42,14 @@
 
 #if OPENSSL_IS_LEGACY
 
+/** Allocate and zero-fill a continuous chunk of memory. */
+void *OPENSSL_zalloc(size_t size);
+
+/** Create new HMAC_CTX. */
+HMAC_CTX *HMAC_CTX_new();
+/** Create new EVP_MD_CTX. */
+EVP_MD_CTX *EVP_MD_CTX_new();
+
 /** Retrieve Diffie-Hellman p, q, and g parameters. */
 void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
 		 const BIGNUM **g);
