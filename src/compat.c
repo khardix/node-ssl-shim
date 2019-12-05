@@ -68,6 +68,24 @@ void *CRYPTO_memdup(const void *data, size_t size, const char *file, int line)
 	return memcpy(result, data, size); // NOLINT – C11 provides memcpy_s
 }
 
+/** Convert n to zero-padded big-endian form. */
+int BN_bn2binpad(const BIGNUM *n, unsigned char *to, int tolen)
+{
+	if (n == NULL || to == NULL || tolen < 0) {
+		return -1;
+	}
+
+	/* Set the whole buffer to zero, then write the number at the end. */
+	size_t actual_size = BN_num_bytes(n);
+	intmax_t offset = (intmax_t)tolen - (intmax_t)actual_size;
+	if (offset < 0) {
+		return -1;
+	}
+
+	OPENSSL_cleanse(to, tolen);
+	return BN_bn2bin(n, to + offset);
+}
+
 /** Create new HMAC_CTX. */
 HMAC_CTX *HMAC_CTX_new()
 {

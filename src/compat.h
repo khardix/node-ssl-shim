@@ -33,6 +33,7 @@
 #ifndef _NODE_SSL_SHIM_COMPAT_H_
 #define _NODE_SSL_SHIM_COMPAT_H_
 
+#include <openssl/bn.h>
 #include <openssl/dh.h>
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
@@ -49,6 +50,9 @@ void *OPENSSL_zalloc(size_t size);
 void *CRYPTO_memdup(const void *data, size_t size, const char *file, int line);
 #define OPENSSL_memdup(data, size) \
 	CRYPTO_memdup((data), (size), __FILE__, __LINE__)
+
+/** Convert n to zero-padded big-endian form. */
+int BN_bn2binpad(const BIGNUM *n, unsigned char *to, int tolen);
 
 /** Create new HMAC_CTX. */
 HMAC_CTX *HMAC_CTX_new();
