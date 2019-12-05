@@ -28,6 +28,7 @@
  * <https://wiki.openssl.org/index.php/OpenSSL_1.1.0_Changes>.
  */
 
+#include <limits.h>
 #include <string.h>
 
 #include <openssl/crypto.h>
@@ -48,6 +49,23 @@ void *OPENSSL_zalloc(size_t size)
 	}
 
 	return memory;
+}
+
+/** Duplicate memory contents in a new location. */
+void *CRYPTO_memdup(const void *data, size_t size, const char *file, int line)
+{
+	void *result = NULL;
+
+	if (data == NULL || size > INT_MAX) {
+		return result;
+	}
+
+	result = CRYPTO_malloc(size, file, line);
+	if (result == NULL) {
+		return result;
+	}
+
+	return memcpy(result, data, size); // NOLINT – C11 provides memcpy_s
 }
 
 /** Create new HMAC_CTX. */

@@ -45,6 +45,11 @@
 /** Allocate and zero-fill a continuous chunk of memory. */
 void *OPENSSL_zalloc(size_t size);
 
+/** Duplicate memory into new location. */
+void *CRYPTO_memdup(const void *data, size_t size, const char *file, int line);
+#define OPENSSL_memdup(data, size) \
+	CRYPTO_memdup((data), (size), __FILE__, __LINE__)
+
 /** Create new HMAC_CTX. */
 HMAC_CTX *HMAC_CTX_new();
 /** Create new EVP_MD_CTX. */
