@@ -60,6 +60,9 @@ void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
 /** Increment reference count of a private key. */
 int EVP_PKEY_up_ref(EVP_PKEY *key);
 
+/** Finalize digest computation with XOF (eXtendable Output Functions). */
+int EVP_DigestFinalXOF(EVP_MD_CTX *ctx, unsigned char *md, size_t size);
+
 /** Fill a contiguous memory with 0s and then free it. */
 void OPENSSL_clear_free(void *memory, size_t len);
 

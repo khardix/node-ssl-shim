@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include <openssl/crypto.h>
+#include <openssl/err.h>
 
+#include "constants.h"
 #include "compat.h"
 
 #if OPENSSL_IS_LEGACY
@@ -111,6 +113,19 @@ int EVP_PKEY_up_ref(EVP_PKEY *key)
 
 	int prev = CRYPTO_add(&key->references, 1, CRYPTO_LOCK_EVP_PKEY);
 	return (prev > 1) ? 1 : 0;
+}
+
+/** Finalize digest computation with XOF (eXtendable Output Functions).
+ *
+ * XOF is not supported by legacy OpenSSL, and as such,
+ * this function always fails.
+ */
+int EVP_DigestFinalXOF(EVP_MD_CTX *ctx __attribute__((unused)),
+		       unsigned char *md __attribute__((unused)),
+		       size_t size __attribute__((unused)))
+{
+	EVPerr(EVP_F_EVP_DIGESTFINALXOF, EVP_R_UNSUPPORTED_ALGORITHM);
+	return 0;
 }
 
 /** Fill a contiguous memory with 0s and then free it. */
