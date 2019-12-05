@@ -115,6 +115,52 @@ int EVP_PKEY_up_ref(EVP_PKEY *key)
 	return (prev > 1) ? 1 : 0;
 }
 
+/** One-shot signing of single block of data.
+ *
+ * @param[in] ctx The signature context.
+ * @param[out] sigret The final signature.
+ * @param[out] siglen Length of the final signature.
+ * @param[in] tbs The block of data to be signed.
+ * @param[in] tbslen Length of the block of data to be signed.
+ * @return 1 for success, 0 for failure.
+ */
+int EVP_DigestSign(EVP_MD_CTX *ctx, unsigned char *sigret, size_t *siglen,
+		   const unsigned char *tbs, size_t tbslen)
+{
+	if (ctx == NULL || tbs == NULL) {
+		return 0;
+	}
+
+	if (sigret != NULL && (EVP_DigestSignUpdate(ctx, tbs, tbslen) <= 0)) {
+		return 0;
+	}
+
+	return EVP_DigestSignFinal(ctx, sigret, siglen);
+}
+/** One-shot signature verification for single block of data.
+ *
+ * @param[in] ctx Verification context.
+ * @param[in] sigret Signature to verify.
+ * @param[in] siglen Length of the signature to verify.
+ * @param[in] tbs Data to verify.
+ * @param[in] tbslen Length of the data to verify.
+ * @return 1 for success, 0 for failed verification,
+ * other values for more serious errors.
+ */
+int EVP_DigestVerify(EVP_MD_CTX *ctx, const unsigned char *sigret,
+		     size_t siglen, const unsigned char *tbs, size_t tbslen)
+{
+	if (ctx == NULL || sigret == NULL || tbs == NULL) {
+		return -1;
+	}
+
+	if (EVP_DigestVerifyUpdate(ctx, tbs, tbslen) <= 0) {
+		return -1;
+	}
+
+	return EVP_DigestVerifyFinal(ctx, sigret, siglen);
+}
+
 /** Finalize digest computation with XOF (eXtendable Output Functions).
  *
  * XOF is not supported by legacy OpenSSL, and as such,

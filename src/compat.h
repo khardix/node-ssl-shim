@@ -60,6 +60,13 @@ void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
 /** Increment reference count of a private key. */
 int EVP_PKEY_up_ref(EVP_PKEY *key);
 
+/** One-shot signing of single block of data. */
+int EVP_DigestSign(EVP_MD_CTX *ctx, unsigned char *sigret, size_t *siglen,
+		   const unsigned char *tbs, size_t tbslen);
+/** One-shot signature verification for single block of data. */
+int EVP_DigestVerify(EVP_MD_CTX *ctx, const unsigned char *sigret,
+		     size_t siglen, const unsigned char *tbs, size_t tbslen);
+
 /** Finalize digest computation with XOF (eXtendable Output Functions). */
 int EVP_DigestFinalXOF(EVP_MD_CTX *ctx, unsigned char *md, size_t size);
 
