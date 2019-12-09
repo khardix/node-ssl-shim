@@ -71,4 +71,14 @@ long SSL_get_tlsext_status_type(SSL *s)
 	}
 }
 
+/** Set diagnostic key logging callback.
+ * UNSUPPORTED – Provided as no-op.
+ */
+void SSL_CTX_set_keylog_callback(SSL_CTX *ctx __attribute__((unused)),
+				 void (*callback)(const SSL *ssl,
+						  const char *line)
+					 __attribute__((unused)))
+{
+}
+
 #endif /* OPENSSL_IS_LEGACY */

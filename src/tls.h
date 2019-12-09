@@ -46,6 +46,13 @@ void SSL_SESSION_get0_ticket(const SSL_SESSION *s, const unsigned char **tick,
 /** Determine status of TLS extension. */
 long SSL_get_tlsext_status_type(SSL *s);
 
+/** Set diagnostic key logging callback.
+ * UNSUPPORTED – Provided as no-op.
+ */
+void SSL_CTX_set_keylog_callback(SSL_CTX *ctx,
+				 void (*callback)(const SSL *ssl,
+						  const char *line));
+
 #endif /* OPENSSL_IS_LEGACY */
 
 #endif /* _NODE_SSL_SHIM_TLS_H_ */
