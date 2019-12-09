@@ -46,5 +46,44 @@ void BIO_set_shutdown(BIO *a, int shut);
 /** Retrieve current shutdown status. */
 int BIO_get_shutdown(BIO *a);
 
+/** Allocate new BIO_METHOD. */
+BIO_METHOD *BIO_meth_new(int type, const char *name);
+
+/** Get callback implementing the BIO_write operation. */
+int (*BIO_meth_get_write(const BIO_METHOD *biom))(BIO *, const char *, int);
+/** Set callback implementing the BIO_write operation. */
+int BIO_meth_set_write(BIO_METHOD *biom,
+		       int (*write)(BIO *, const char *, int));
+
+/** Get callback implementing the BIO_read operation. */
+int (*BIO_meth_get_read(const BIO_METHOD *biom))(BIO *, char *, int);
+/** Set callback implementing the BIO_read operation. */
+int BIO_meth_set_read(BIO_METHOD *biom, int (*read)(BIO *, char *, int));
+
+/** Get callback implementing the BIO_puts operation. */
+int (*BIO_meth_get_puts(const BIO_METHOD *biom))(BIO *, const char *);
+/** Set callback implementing the BIO_puts operation. */
+int BIO_meth_set_puts(BIO_METHOD *biom, int (*puts)(BIO *, const char *));
+
+/** Get callback implementing the BIO_gets operation. */
+int (*BIO_meth_get_gets(const BIO_METHOD *biom))(BIO *, char *, int);
+/** Set callback implementing the BIO_gets operation. */
+int BIO_meth_set_gets(BIO_METHOD *biom, int (*gets)(BIO *, char *, int));
+
+/** Get callback implementing the BIO_ctrl operation. */
+long (*BIO_meth_get_ctrl(const BIO_METHOD *biom))(BIO *, int, long, void *);
+/** Set callback implementing the BIO_ctrl operation. */
+int BIO_meth_set_ctrl(BIO_METHOD *biom, long (*ctrl)(BIO *, int, long, void *));
+
+/** Get callback implementing the BIO_new operation. */
+int (*BIO_meth_get_create(const BIO_METHOD *bion))(BIO *);
+/** Set callback implementing the BIO_new operation. */
+int BIO_meth_set_create(BIO_METHOD *biom, int (*create)(BIO *));
+
+/** Get callback implementing the BIO_free operation. */
+int (*BIO_meth_get_destroy(const BIO_METHOD *biom))(BIO *);
+/** Set callback implementing the BIO_free operation. */
+int BIO_meth_set_destroy(BIO_METHOD *biom, int (*destroy)(BIO *));
+
 #endif /* OPENSSL_IS_LEGACY */
 #endif /* _NODE_SSL_SHIM_BIO_H_ */

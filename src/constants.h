@@ -56,6 +56,9 @@
 
 #define OPENSSL_EC_EXPLICIT_CURVE 0
 
+/* New function identifiers */
+#define BIO_F_BIO_METH_NEW 0
+
 /* Renamed control codes */
 #define EVP_CTRL_AEAD_GET_TAG EVP_CTRL_GCM_GET_TAG
 #define EVP_CTRL_AEAD_SET_IVLEN EVP_CTRL_GCM_SET_IVLEN
