@@ -22,18 +22,68 @@
  * SOFTWARE.
  */
 
-/** @file Include-everything header for the Node-SSL-shim. */
-
-#ifndef _NODE_SSL_SHIM_SSL_SHIM_H_
-#define _NODE_SSL_SHIM_SSL_SHIM_H_
-
-#include "features.h"
-#include "constants.h"
-
+/** @file Backports of BIO-related functions. */
 #include "bio.h"
-#include "compat.h"
-#include "ec.h"
-#include "tls.h"
-#include "x509.h"
 
-#endif /* _NODE_SSL_SHIM_SSL_SHIM_H_ */
+#if OPENSSL_IS_LEGACY
+
+#include <openssl/bio.h>
+
+/** Associate a custom data with a BIO. */
+void BIO_set_data(BIO *a, void *ptr)
+{
+	if (a == NULL) {
+		return;
+	}
+
+	a->ptr = ptr;
+}
+/** Retrieve the custom data associated with a BIO. */
+void *BIO_get_data(BIO *a)
+{
+	if (a == NULL) {
+		return NULL;
+	}
+
+	return a->ptr;
+}
+
+/** Indicate initialization status by setting the `init` flag. */
+void BIO_set_init(BIO *a, int init)
+{
+	if (a == NULL) {
+		return;
+	}
+
+	a->init = init;
+}
+/** Retrieve current initialization status. */
+int BIO_get_init(BIO *a)
+{
+	if (a == NULL) {
+		return 0; /* Initialization not complete. */
+	}
+
+	return a->init;
+}
+
+/** Indicate shutdown status by setting the `shutdown` flag. */
+void BIO_set_shutdown(BIO *a, int shut)
+{
+	if (a == NULL) {
+		return;
+	}
+
+	a->shutdown = shut;
+}
+/** Retrieve current shutdown status. */
+int BIO_get_shutdown(BIO *a)
+{
+	if (a == NULL) {
+		return 0;
+	}
+
+	return a->shutdown;
+}
+
+#endif /* OPENSSL_IS_LEGACY */

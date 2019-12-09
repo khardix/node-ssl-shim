@@ -22,18 +22,29 @@
  * SOFTWARE.
  */
 
-/** @file Include-everything header for the Node-SSL-shim. */
-
-#ifndef _NODE_SSL_SHIM_SSL_SHIM_H_
-#define _NODE_SSL_SHIM_SSL_SHIM_H_
+/** @file Backports of BIO-related functions. */
+#ifndef _NODE_SSL_SHIM_BIO_H_
+#define _NODE_SSL_SHIM_BIO_H_
 
 #include "features.h"
-#include "constants.h"
+#if OPENSSL_IS_LEGACY
 
-#include "bio.h"
-#include "compat.h"
-#include "ec.h"
-#include "tls.h"
-#include "x509.h"
+#include <openssl/bio.h>
 
-#endif /* _NODE_SSL_SHIM_SSL_SHIM_H_ */
+/** Associate a custom data with a BIO. */
+void BIO_set_data(BIO *a, void *ptr);
+/** Retrieve the custom data associated with a BIO. */
+void *BIO_get_data(BIO *a);
+
+/** Indicate initialization status by setting the `init` flag. */
+void BIO_set_init(BIO *a, int init);
+/** Retrieve current initialization status. */
+int BIO_get_init(BIO *a);
+
+/** Indicate shutdown status by setting the `shutdown` flag. */
+void BIO_set_shutdown(BIO *a, int shut);
+/** Retrieve current shutdown status. */
+int BIO_get_shutdown(BIO *a);
+
+#endif /* OPENSSL_IS_LEGACY */
+#endif /* _NODE_SSL_SHIM_BIO_H_ */
