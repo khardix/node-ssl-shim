@@ -26,6 +26,10 @@
 #ifndef _NODE_SSL_SHIM_BIO_H_
 #define _NODE_SSL_SHIM_BIO_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "features.h"
 #if OPENSSL_IS_LEGACY
 
@@ -86,4 +90,7 @@ int (*BIO_meth_get_destroy(const BIO_METHOD *biom))(BIO *);
 int BIO_meth_set_destroy(BIO_METHOD *biom, int (*destroy)(BIO *));
 
 #endif /* OPENSSL_IS_LEGACY */
+#ifdef __cplusplus
+}
+#endif
 #endif /* _NODE_SSL_SHIM_BIO_H_ */

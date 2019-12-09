@@ -27,6 +27,10 @@
 #ifndef _NODE_SSL_SHIM_EC_H_
 #define _NODE_SSL_SHIM_EC_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "features.h"
 #if OPENSSL_IS_LEGACY
 
@@ -36,5 +40,7 @@
 int EC_GROUP_order_bits(const EC_GROUP *group);
 
 #endif /* OPENSSL_IS_LEGACY */
-
+#ifdef __cplusplus
+}
+#endif
 #endif /* _NODE_SSL_SHIM_EC_H_ */

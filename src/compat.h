@@ -33,6 +33,10 @@
 #ifndef _NODE_SSL_SHIM_COMPAT_H_
 #define _NODE_SSL_SHIM_COMPAT_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <openssl/bn.h>
 #include <openssl/dh.h>
 #include <openssl/evp.h>
@@ -108,5 +112,7 @@ void EVP_MD_CTX_free(EVP_MD_CTX *ctx);
 void HMAC_CTX_free(HMAC_CTX *ctx);
 
 #endif /* OPENSSL_IS_LEGACY */
-
+#ifdef __cplusplus
+}
+#endif
 #endif /* _NODE_SSL_SHIM_COMPAT_H_ */

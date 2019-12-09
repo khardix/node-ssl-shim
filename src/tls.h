@@ -27,6 +27,10 @@
 #ifndef _NODE_SSL_SHIM_TLS_H_
 #define _NODE_SSL_SHIM_TLS_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "features.h"
 #if OPENSSL_IS_LEGACY
 
@@ -54,5 +58,7 @@ void SSL_CTX_set_keylog_callback(SSL_CTX *ctx,
 						  const char *line));
 
 #endif /* OPENSSL_IS_LEGACY */
-
+#ifdef __cplusplus
+}
+#endif
 #endif /* _NODE_SSL_SHIM_TLS_H_ */

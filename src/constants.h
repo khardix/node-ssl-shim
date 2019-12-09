@@ -26,6 +26,10 @@
 #ifndef _NODE_SSL_SHIM_CONSTANTS_H_
 #define _NODE_SSL_SHIM_CONSTANTS_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "features.h"
 
 #if OPENSSL_IS_LEGACY
@@ -70,5 +74,7 @@
 #define EVP_R_NOT_XOF_OR_INVALID_LENGTH 178
 
 #endif /* OPENSSL_IS_LEGACY */
-
+#ifdef __cplusplus
+}
+#endif
 #endif /* _NODE_SSL_SHIM_CONSTANTS_H_ */

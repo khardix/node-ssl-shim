@@ -27,6 +27,10 @@
 #ifndef _NODE_SSL_SHIM_X509_H_
 #define _NODE_SSL_SHIM_X509_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "features.h"
 #if OPENSSL_IS_LEGACY
 
@@ -37,5 +41,7 @@ int X509_up_ref(X509 *x);
 int X509_STORE_up_ref(X509_STORE *x);
 
 #endif /* OPENSSL_IS_LEGACY */
-
+#ifdef __cplusplus
+}
+#endif
 #endif /* _NODE_SSL_SHIM_X509_H_ */

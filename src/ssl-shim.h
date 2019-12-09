@@ -27,6 +27,10 @@
 #ifndef _NODE_SSL_SHIM_SSL_SHIM_H_
 #define _NODE_SSL_SHIM_SSL_SHIM_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "features.h"
 #include "constants.h"
 
@@ -36,4 +40,7 @@
 #include "tls.h"
 #include "x509.h"
 
+#ifdef __cplusplus
+}
+#endif
 #endif /* _NODE_SSL_SHIM_SSL_SHIM_H_ */

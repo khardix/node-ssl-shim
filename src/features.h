@@ -27,6 +27,10 @@
 #ifndef _NODE_SSL_SHIM_FEATURES_H_
 #define _NODE_SSL_SHIM_FEATURES_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /** The OpenSSL is old enough to require this library. */
 #define OPENSSL_IS_LEGACY (OPENSSL_VERSION_NUMBER < 0x10100000L)
 
@@ -42,5 +46,7 @@
 #define OPENSSL_IS_BORINGSSL
 
 #endif /* OPENSSL_IS_LEGACY */
-
+#ifdef __cplusplus
+}
+#endif
 #endif /* _NODE_SSL_SHIM_FEATURES_H_ */
