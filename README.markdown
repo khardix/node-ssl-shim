@@ -44,4 +44,4 @@ License
 -------
 
 The library is currently available under MIT license
-(see the [LICENSE][./LICENSE] file for details).
+(see the [LICENSE](./LICENSE) file for details).
