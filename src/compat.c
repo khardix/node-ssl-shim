@@ -168,12 +168,18 @@ void DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM **priv_key)
 }
 /** Set Diffie-Hellman public and/or private keys.
  *
- * If the pub_key field in dh is NULL, the pub_key parameter must not be NULL.
- * priv_key field may be left NULL.
+ * According to OpenSSL wiki:
+ *
+ * > If the pub_key field in dh is NULL,
+ * > the pub_key parameter must not be NULL.
+ * > priv_key field may be left NULL.
+ *
+ * However, the NodeJS assumes that the keys might be set independently,
+ * so the above property is not checked.
  */
 int DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key)
 {
-	if (dh == NULL || (dh->pub_key == NULL && pub_key == NULL)) {
+	if (dh == NULL) {
 		return 0;
 	}
 
