@@ -306,10 +306,10 @@ void HMAC_CTX_free(HMAC_CTX *ctx)
 		return;
 	}
 
+	EVP_MD_CTX_cleanup(&ctx->i_ctx);
+	EVP_MD_CTX_cleanup(&ctx->o_ctx);
+	EVP_MD_CTX_cleanup(&ctx->md_ctx);
 	HMAC_CTX_cleanup(ctx);
-	EVP_MD_CTX_free(&ctx->i_ctx);
-	EVP_MD_CTX_free(&ctx->o_ctx);
-	EVP_MD_CTX_free(&ctx->md_ctx);
 	OPENSSL_free(ctx);
 }
 
