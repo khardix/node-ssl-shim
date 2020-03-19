@@ -1,7 +1,7 @@
 PKGNAME := node-ssl-shim
 
 CC     ?= gcc
-CFLAGS := -std=c11 -pedantic -Wall -Wextra -Werror -ggdb
+CFLAGS := -std=c11 -pedantic -Wall -Wextra -Werror -ggdb -fPIC
 
 # Standard installation directories, override as needed
 prefix ?= /usr/local
