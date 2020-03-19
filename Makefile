@@ -1,15 +1,17 @@
-PKGNAME := node-ssl-shim
+# ### Metadata ################################################################
+PKGNAME     := node-ssl-shim
 
-CC     ?= gcc
-CFLAGS := -std=c11 -pedantic -Wall -Wextra -Werror -ggdb -fPIC
+# ### Installation directories ################################################
+prefix      := /usr/local
+includedir   = $(prefix)/include
+libdir       = $(prefix)/lib
 
-# Standard installation directories, override as needed
-prefix ?= /usr/local
-includedir ?= $(prefix)/include
-libdir ?= $(prefix)/lib
+# ### Compilation configuration ###############################################
+CC          := gcc
+CFLAGS      := -std=c11 -pedantic -Wall -Wextra -Werror -ggdb -fPIC
 
-INSTALL ?= install -p
-RM ?= rm -f
+INSTALL     := install -p
+RM          := rm -f
 
 # Code lives in src directory
 sources := $(wildcard src/*.c)
@@ -21,11 +23,13 @@ CFLAGS += $(shell pkg-config --cflags openssl)
 LDFLAGS += $(shell pkg-config --libs-only-L openssl)
 LDLIBS += $(shell pkg-config --libs-only-l openssl)
 
-.PHONY: all clean install prebuilt test
+# ### Compilation rules #######################################################
+.PHONY: all install prebuilt test clean
 
+# Compile the project
 all: lib$(PKGNAME).a
 
-# Install files to configured directories
+# Install output files to appropriate directories
 install: lib$(PKGNAME).a $(headers)
 	$(INSTALL) -Dt$(libdir) -m0755 $<
 	$(INSTALL) -Dt$(includedir)/$(PKGNAME) -m0644 $(headers)
@@ -39,7 +43,7 @@ test: test/suite
 
 # Clean all build artifacts
 clean:
-	$(RM) -r $(PKGNAME)*.tar.gz dist/
+	$(RM) -r $(PKGNAME)*.tar.gz $(PKGNAME)/
 	$(RM) test/suite test/*.o
 	$(RM) lib$(PKGNAME).a
 	$(RM) $(objects)
@@ -47,9 +51,9 @@ clean:
 
 lib$(PKGNAME).a: lib$(PKGNAME).a($(objects))
 
-$(PKGNAME)-prebuilt.tar.gz: override prefix := dist
+$(PKGNAME)-prebuilt.tar.gz: override prefix := $(PKGNAME)
 $(PKGNAME)-prebuilt.tar.gz: install
-	tar -czf $@ --transform='s|^dist/|$(PKGNAME)/|' $(wildcard dist/*)
+	tar -czf $@ $(wildcard $(PKGNAME)/*)
 
 
 test/suite: CFLAGS += $(shell pkg-config --cflags check)
