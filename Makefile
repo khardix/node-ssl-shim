@@ -1,5 +1,6 @@
 # ### Metadata ################################################################
 PKGNAME     := node-ssl-shim
+VERSION     := $(shell git rev-parse --short --tags HEAD||echo "UNKNOWN")
 
 # ### Installation directories ################################################
 prefix      := /usr/local
@@ -16,7 +17,7 @@ RM          := rm -f
 # Code lives in src directory
 sources := $(wildcard src/*.c)
 headers := $(wildcard src/*.h)
-objects := $(addsuffix .o,$(basename $(sources)))
+objects := $(sources:.c=.o)
 
 # Should link with OpenSSL 1.0.*
 CFLAGS += $(shell pkg-config --cflags openssl)
@@ -24,10 +25,13 @@ LDFLAGS += $(shell pkg-config --libs-only-L openssl)
 LDLIBS += $(shell pkg-config --libs-only-l openssl)
 
 # ### Compilation rules #######################################################
-.PHONY: all install prebuilt test clean
+.PHONY: all archive install prebuilt test clean
 
 # Compile the project
 all: lib$(PKGNAME).a
+
+archive:
+	git archive -o $(PKGNAME)-$(VERSION).tar.gz --prefix=$(PKGNAME)/ HEAD
 
 # Install output files to appropriate directories
 install: lib$(PKGNAME).a $(headers)
