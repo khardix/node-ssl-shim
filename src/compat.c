@@ -240,6 +240,24 @@ void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
 		*d = r->d;
 	}
 }
+/** Retrieve ECDSA_SIG parameter r. */
+const BIGNUM *ECDSA_SIG_get0_r(const ECDSA_SIG *sig)
+{
+	if (sig == NULL) {
+		return 0;
+	}
+
+	return sig->r;
+}
+/** Retrieve ECDSA_SIG parameter s. */
+const BIGNUM *ECDSA_SIG_get0_s(const ECDSA_SIG *sig)
+{
+	if (sig == NULL) {
+		return 0;
+	}
+
+	return sig->s;
+}
 
 /** Increment reference count of a private key. */
 int EVP_PKEY_up_ref(EVP_PKEY *key)

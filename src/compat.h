@@ -40,6 +40,7 @@ extern "C" {
 #include <openssl/bn.h>
 #include <openssl/dh.h>
 #include <openssl/ec.h>
+#include <openssl/ecdsa.h>
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 #include <openssl/rsa.h>
@@ -96,6 +97,10 @@ const BIGNUM *DSA_get0_g(const DSA *dsa);
 /** Retrieve RSA key parameters. */
 void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
 		  const BIGNUM **d);
+/** Retrieve ECDSA_SIG parameter r. */
+const BIGNUM *ECDSA_SIG_get0_r(const ECDSA_SIG *sig);
+/** Retrieve ECDSA_SIG parameter s. */
+const BIGNUM *ECDSA_SIG_get0_s(const ECDSA_SIG *sig);
 
 /** Increment reference count of a private key. */
 int EVP_PKEY_up_ref(EVP_PKEY *key);
