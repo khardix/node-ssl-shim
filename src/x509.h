@@ -40,6 +40,14 @@ extern "C" {
 int X509_up_ref(X509 *x);
 int X509_STORE_up_ref(X509_STORE *x);
 
+/** Retrieve X509 objects from store. */
+STACK_OF(X509_OBJECT) * X509_STORE_get0_objects(const X509_STORE *xs);
+
+/** Determine type of X509 object. */
+int X509_OBJECT_get_type(const X509_OBJECT *object);
+/** Extract X509 data structure from generic X509 object. */
+X509 *X509_OBJECT_get0_X509(const X509_OBJECT *object);
+
 #endif /* OPENSSL_IS_LEGACY */
 #ifdef __cplusplus
 }

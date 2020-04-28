@@ -52,4 +52,40 @@ int X509_STORE_up_ref(X509_STORE *xs)
 	return (prev > 1) ? 1 : 0;
 }
 
+/** Retrieve X509 objects from store. */
+STACK_OF(X509_OBJECT) * X509_STORE_get0_objects(const X509_STORE *xs)
+{
+	if (xs == NULL) {
+		return NULL;
+	}
+
+	return xs->objs;
+}
+
+/** Determine type of X509 object.
+ *
+ * @return Type of the object, or X509_LU_FAIL when object is NULL.
+ */
+int X509_OBJECT_get_type(const X509_OBJECT *object)
+{
+	if (object == NULL) {
+		return X509_LU_FAIL;
+	}
+
+	return object->type;
+}
+/** Extract X509 data structure from generic X509 object.
+ *
+ * @return Pointer to the X509 structure;
+ * NULL if object is NULL or of different type than X509_LU_X509.
+ */
+X509 *X509_OBJECT_get0_X509(const X509_OBJECT *object)
+{
+	if (object == NULL || object->type != X509_LU_X509) {
+		return NULL;
+	}
+
+	return object->data.x509;
+}
+
 #endif /* OPENSSL_IS_LEGACY */
