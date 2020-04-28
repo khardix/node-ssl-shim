@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include <openssl/crypto.h>
+#include <openssl/dsa.h>
 #include <openssl/err.h>
 
 #include "constants.h"
@@ -193,6 +194,33 @@ int DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key)
 	}
 
 	return 1;
+}
+/** Retrieve DSA parameter p. */
+const BIGNUM *DSA_get0_p(const DSA *dsa)
+{
+	if (dsa == NULL) {
+		return NULL;
+	}
+
+	return dsa->p;
+}
+/** Retrieve DSA parameter q. */
+const BIGNUM *DSA_get0_q(const DSA *dsa)
+{
+	if (dsa == NULL) {
+		return NULL;
+	}
+
+	return dsa->q;
+}
+/** Retrieve DSA parameter q. */
+const BIGNUM *DSA_get0_g(const DSA *dsa)
+{
+	if (dsa == NULL) {
+		return NULL;
+	}
+
+	return dsa->g;
 }
 /** Retrieve RSA key parameters. */
 void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,

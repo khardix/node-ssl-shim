@@ -87,6 +87,12 @@ int DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g);
 void DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM **priv_key);
 /** Set Diffie-Hellman public and/or private keys. */
 int DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key);
+/** Retrieve DSA parameter p. */
+const BIGNUM *DSA_get0_p(const DSA *dsa);
+/** Retrieve DSA parameter q. */
+const BIGNUM *DSA_get0_q(const DSA *dsa);
+/** Retrieve DSA parameter g. */
+const BIGNUM *DSA_get0_g(const DSA *dsa);
 /** Retrieve RSA key parameters. */
 void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
 		  const BIGNUM **d);
