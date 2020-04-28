@@ -101,6 +101,8 @@ void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
 const BIGNUM *ECDSA_SIG_get0_r(const ECDSA_SIG *sig);
 /** Retrieve ECDSA_SIG parameter s. */
 const BIGNUM *ECDSA_SIG_get0_s(const ECDSA_SIG *sig);
+/** Set ECDSA_SIG parameters. */
+int ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s);
 
 /** Increment reference count of a private key. */
 int EVP_PKEY_up_ref(EVP_PKEY *key);

@@ -258,6 +258,25 @@ const BIGNUM *ECDSA_SIG_get0_s(const ECDSA_SIG *sig)
 
 	return sig->s;
 }
+/** Set ECDSA_SIG parameters.
+ *
+ * Existing values stored within the sig object will be freed.
+ *
+ * @return 0 on failure or NULL parameters, 1 otherwise.
+ */
+int ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s)
+{
+	if (sig == NULL || r == NULL || s == NULL) {
+		return 0;
+	}
+
+	BN_clear_free(sig->r);
+	BN_clear_free(sig->s);
+	sig->r = r;
+	sig->s = s;
+
+	return 0;
+}
 
 /** Increment reference count of a private key. */
 int EVP_PKEY_up_ref(EVP_PKEY *key)
