@@ -39,6 +39,7 @@ extern "C" {
 
 #include <openssl/bn.h>
 #include <openssl/dh.h>
+#include <openssl/ec.h>
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 #include <openssl/rsa.h>
@@ -92,6 +93,10 @@ void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
 
 /** Increment reference count of a private key. */
 int EVP_PKEY_up_ref(EVP_PKEY *key);
+/** Return DSA private key without incrementing reference count. */
+DSA *EVP_PKEY_get0_DSA(EVP_PKEY *key);
+/** Return EC_KEY private key without incrementing reference count. */
+EC_KEY *EVP_PKEY_get0_EC_KEY(EVP_PKEY *key);
 
 /** One-shot signing of single block of data. */
 int EVP_DigestSign(EVP_MD_CTX *ctx, unsigned char *sigret, size_t *siglen,

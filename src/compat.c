@@ -224,6 +224,32 @@ int EVP_PKEY_up_ref(EVP_PKEY *key)
 	return (prev > 1) ? 1 : 0;
 }
 
+/** Extract DSA private key without incrementing reference count.
+ *
+ * @return Pointer to DSA structure, or NULL if the key is of invalid type.
+ */
+DSA *EVP_PKEY_get0_DSA(EVP_PKEY *key)
+{
+	if (key == NULL || key->type != EVP_PKEY_DSA) {
+		return NULL;
+	}
+
+	return key->pkey.dsa;
+}
+
+/** Extract EC_KEY private key without incrementing reference count.
+ *
+ * @return Pointer to EC_KEY structure, or NULL if the key is of invalid type.
+ */
+EC_KEY *EVP_PKEY_get0_EC_KEY(EVP_PKEY *key)
+{
+	if (key == NULL || key->type != EVP_PKEY_EC) {
+		return NULL;
+	}
+
+	return key->pkey.ec;
+}
+
 /** One-shot signing of single block of data.
  *
  * @param[in] ctx The signature context.
