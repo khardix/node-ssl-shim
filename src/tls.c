@@ -58,6 +58,32 @@ void SSL_SESSION_get0_ticket(const SSL_SESSION *s, const unsigned char **tick,
 	}
 }
 
+/** Retrieve client random value of initial TLS handshake.
+ * @param ssl Source structure.
+ * @param out Output buffer; must be at least `outlen` bytes long.
+ * @param outlen Minimal size of the output buffer.
+ * @return Actual number of bytes that were copied. If outlen is 0,
+ * no copy is performed and total size of the client random value is returned.
+ */
+size_t SSL_get_client_random(const SSL *ssl, unsigned char *out, size_t outlen)
+{
+	if (ssl == NULL) {
+		return 0;
+	}
+
+	const size_t total_size = sizeof ssl->s3->client_random;
+	if (out == NULL || outlen == 0) {
+		return total_size;
+	}
+
+	if (outlen > total_size) {
+		outlen = total_size;
+	}
+
+	memcpy(out, ssl->s3->client_random, outlen); // NOLINT – memcpy_s
+	return outlen;
+}
+
 /** Determine status of TLS extension.
  *
  * @return The TLSext status, or -1 in case of error.

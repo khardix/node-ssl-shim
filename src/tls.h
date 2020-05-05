@@ -50,6 +50,9 @@ const SSL_METHOD *TLS_client_method();
 void SSL_SESSION_get0_ticket(const SSL_SESSION *s, const unsigned char **tick,
 			     size_t *len);
 
+/** Retrieve client random value of initial TLS handshake. */
+size_t SSL_get_client_random(const SSL *ssl, unsigned char *out, size_t outlen);
+
 /** Determine status of TLS extension. */
 long SSL_get_tlsext_status_type(SSL *s);
 
