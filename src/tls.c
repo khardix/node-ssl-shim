@@ -74,11 +74,22 @@ long SSL_get_tlsext_status_type(SSL *s)
 /** Set diagnostic key logging callback.
  * UNSUPPORTED – Provided as no-op.
  */
-void SSL_CTX_set_keylog_callback(SSL_CTX *ctx __attribute__((unused)),
-				 void (*callback)(const SSL *ssl,
-						  const char *line)
-					 __attribute__((unused)))
+/* clang-format off */
+void SSL_CTX_set_keylog_callback(
+		SSL_CTX *ctx __attribute__((unused)),
+		SSL_CTX_keylog_cb_func callback __attribute__((unused)))
+/* clang-format on */
 {
+}
+/** Get diagnostic key logging callback.
+ * UNSUPPORTED – No-op, always returns NULL.
+ */
+/* clang-format off */
+SSL_CTX_keylog_cb_func *SSL_CTX_get_keylog_callback(
+		const SSL_CTX *ctx __attribute__((unused)))
+/* clang-format on */
+{
+	return NULL;
 }
 
 #endif /* OPENSSL_IS_LEGACY */

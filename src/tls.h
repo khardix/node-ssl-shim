@@ -36,6 +36,9 @@ extern "C" {
 
 #include <openssl/ssl.h>
 
+/** Keylog callback signature */
+typedef void SSL_CTX_keylog_cb_func(const SSL *ssl, const char *line);
+
 /** Version-flexible TLS method. */
 const SSL_METHOD *TLS_method();
 /** Version-flexible TLS server method. */
@@ -53,9 +56,11 @@ long SSL_get_tlsext_status_type(SSL *s);
 /** Set diagnostic key logging callback.
  * UNSUPPORTED – Provided as no-op.
  */
-void SSL_CTX_set_keylog_callback(SSL_CTX *ctx,
-				 void (*callback)(const SSL *ssl,
-						  const char *line));
+void SSL_CTX_set_keylog_callback(SSL_CTX *ctx, SSL_CTX_keylog_cb_func callback);
+/** Get diagnostic key logging callback.
+ * UNSUPPORTED – No-op, always returns NULL.
+ */
+SSL_CTX_keylog_cb_func *SSL_CTX_get_keylog_callback(const SSL_CTX *ctx);
 
 #endif /* OPENSSL_IS_LEGACY */
 #ifdef __cplusplus
