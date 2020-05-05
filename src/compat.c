@@ -104,6 +104,16 @@ EVP_MD_CTX *EVP_MD_CTX_new()
 	return OPENSSL_zalloc(sizeof(EVP_MD_CTX));
 }
 
+/** Retrieve internal pointer to ASN.1 data. */
+const unsigned char *ASN1_STRING_get0_data(const ASN1_STRING *astring)
+{
+	if (astring == NULL) {
+		return NULL;
+	}
+
+	return astring->data;
+}
+
 /** Retrieve Diffie-Hellman p, q, and g parameters. */
 void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
 		 const BIGNUM **g)

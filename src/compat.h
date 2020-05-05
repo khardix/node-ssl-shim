@@ -37,6 +37,7 @@
 extern "C" {
 #endif
 
+#include <openssl/asn1.h>
 #include <openssl/bn.h>
 #include <openssl/dh.h>
 #include <openssl/ec.h>
@@ -79,6 +80,8 @@ EVP_MD_CTX *EVP_MD_CTX_new();
 	EVP_PKEY_CTX_ctrl((ctx), EVP_PKEY_RSA_PSS, EVP_PKEY_OP_KEYGEN, \
 			  EVP_PKEY_CTRL_MD, 0, (void *)(md))
 
+/** Retrieve internal pointer to ASN.1 data. */
+const unsigned char *ASN1_STRING_get0_data(const ASN1_STRING *astring);
 /** Retrieve Diffie-Hellman p, q, and g parameters. */
 void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
 		 const BIGNUM **g);
