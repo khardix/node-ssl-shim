@@ -25,13 +25,15 @@ LDFLAGS += $(shell pkg-config --libs-only-L openssl)
 LDLIBS += $(shell pkg-config --libs-only-l openssl)
 
 # ### Compilation rules #######################################################
-.PHONY: all archive install prebuilt test clean
+.PHONY: all archive wip-archive install prebuilt test clean
 
 # Compile the project
 all: lib$(PKGNAME).a
 
-archive:
-	git archive -o $(PKGNAME)-$(VERSION).tar.gz --prefix=$(PKGNAME)/ HEAD
+# Archive of the current (committed) git HEAD
+archive: $(PKGNAME)-$(VERSION).tar.gz
+# Archive of the current state of the directory, including uncommitted changes
+wip-archive: $(PKGNAME)-wip.tar.gz
 
 # Install output files to appropriate directories
 install: lib$(PKGNAME).a $(headers)
@@ -54,6 +56,14 @@ clean:
 
 
 lib$(PKGNAME).a: lib$(PKGNAME).a($(objects))
+
+$(PKGNAME)-$(VERSION).tar.gz:
+	git archive -o $(PKGNAME)-$(VERSION).tar.gz --prefix=$(PKGNAME)/ HEAD
+
+$(PKGNAME)-wip.tar.gz:
+	@touch $@  # tar complains when directory changes while it is archived
+	tar --exclude-vcs --exclude-vcs-ignores --transform='s|^\.|$(PKGNAME)|' \
+		-czf $@ .
 
 $(PKGNAME)-prebuilt.tar.gz: override prefix := $(PKGNAME)
 $(PKGNAME)-prebuilt.tar.gz: install
