@@ -36,6 +36,10 @@ extern "C" {
 
 #include <openssl/ssl.h>
 
+/* Aliased functions/macros */
+#define SSL_set1_groups_list SSL_set1_curves_list
+#define SSL_CTX_set1_groups_list SSL_CTX_set1_curves_list
+
 /** Keylog callback signature */
 typedef void SSL_CTX_keylog_cb_func(const SSL *ssl, const char *line);
 
