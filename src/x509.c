@@ -88,4 +88,26 @@ X509 *X509_OBJECT_get0_X509(const X509_OBJECT *object)
 	return object->data.x509;
 }
 
+/** Determine certificate validity (notAfter). */
+const ASN1_TIME *X509_get0_notAfter(const X509 *certificate)
+{
+	if (certificate == NULL || certificate->cert_info == NULL ||
+	    certificate->cert_info->validity == NULL) {
+		return NULL;
+	}
+
+	return certificate->cert_info->validity->notAfter;
+}
+
+/** Determine certificate validity (notBefore). */
+const ASN1_TIME *X509_get0_notBefore(const X509 *certificate)
+{
+	if (certificate == NULL || certificate->cert_info == NULL ||
+	    certificate->cert_info->validity == NULL) {
+		return NULL;
+	}
+
+	return certificate->cert_info->validity->notBefore;
+}
+
 #endif /* OPENSSL_IS_LEGACY */

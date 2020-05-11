@@ -48,6 +48,11 @@ int X509_OBJECT_get_type(const X509_OBJECT *object);
 /** Extract X509 data structure from generic X509 object. */
 X509 *X509_OBJECT_get0_X509(const X509_OBJECT *object);
 
+/** Determine certificate validity (notAfter). */
+const ASN1_TIME *X509_get0_notAfter(const X509 *certificate);
+/** Determine certificate validity (notBefore). */
+const ASN1_TIME *X509_get0_notBefore(const X509 *certificate);
+
 #endif /* OPENSSL_IS_LEGACY */
 #ifdef __cplusplus
 }
