@@ -62,6 +62,7 @@ extern "C" {
 
 /* New function identifiers */
 #define BIO_F_BIO_METH_NEW 0
+#define BN_F_BN_GENERATE_PRIME_EX 0
 
 /* Renamed control codes */
 #define EVP_CTRL_AEAD_GET_TAG EVP_CTRL_GCM_GET_TAG
