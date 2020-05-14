@@ -36,9 +36,9 @@ archive: $(PKGNAME)-$(VERSION).tar.gz
 wip-archive: $(PKGNAME)-wip.tar.gz
 
 # Install output files to appropriate directories
-install: lib$(PKGNAME).a $(headers)
-	$(INSTALL) -Dt$(libdir) -m0755 $<
-	$(INSTALL) -Dt$(includedir)/$(PKGNAME) -m0644 $(headers)
+install: lib$(PKGNAME).a $(headers) | $(libdir)/ $(includedir)/$(PKGNAME)/
+	$(INSTALL) -t$(libdir) -m0755 $<
+	$(INSTALL) -t$(includedir)/$(PKGNAME) -m0644 $(headers)
 
 # Generate archive with prebuilt files
 prebuilt: $(PKGNAME)-prebuilt.tar.gz
@@ -56,6 +56,9 @@ clean:
 
 
 lib$(PKGNAME).a: lib$(PKGNAME).a($(objects))
+
+%/:
+	mkdir -p $@
 
 $(PKGNAME)-$(VERSION).tar.gz:
 	git archive -o $(PKGNAME)-$(VERSION).tar.gz --prefix=$(PKGNAME)/ HEAD
