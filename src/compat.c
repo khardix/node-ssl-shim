@@ -232,6 +232,59 @@ const BIGNUM *DSA_get0_g(const DSA *dsa)
 
 	return dsa->g;
 }
+/** Retrieve all DSA parameters at once.
+ *
+ * Unwanted parameters can be safely set to NULL.
+ */
+void DSA_get0_pqg(const DSA *dsa, const BIGNUM **p, const BIGNUM **q,
+		  const BIGNUM **g)
+{
+	if (dsa == NULL) {
+		return;
+	}
+
+	if (p != NULL) {
+		*p = dsa->p;
+	}
+	if (q != NULL) {
+		*q = dsa->q;
+	}
+	if (g != NULL) {
+		*g = dsa->g;
+	}
+}
+/** Set all DSA parameters at once.
+ *
+ * For any NULL parameter in dsa, the corresponding input parameter MUST be
+ * non-NULL.
+ *
+ * @returns 1 on success, 0 on failure.
+ */
+int DSA_set0_pqg(DSA *dsa, BIGNUM *p, BIGNUM *q, BIGNUM *g)
+{
+	if (dsa == NULL) {
+		return 0;
+	}
+	if ((dsa->p == NULL && p == NULL) || (dsa->q == NULL && q == NULL) ||
+	    (dsa->g == NULL && g == NULL)) {
+		return 0;
+	}
+
+	if (p != NULL) {
+		BN_free(dsa->p);
+		dsa->p = p;
+	}
+	if (q != NULL) {
+		BN_free(dsa->q);
+		dsa->q = q;
+	}
+	if (g != NULL) {
+		BN_free(dsa->g);
+		dsa->g = g;
+	}
+
+	return 1;
+}
 /** Retrieve RSA key parameters. */
 void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
 		  const BIGNUM **d)

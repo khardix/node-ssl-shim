@@ -97,6 +97,11 @@ const BIGNUM *DSA_get0_p(const DSA *dsa);
 const BIGNUM *DSA_get0_q(const DSA *dsa);
 /** Retrieve DSA parameter g. */
 const BIGNUM *DSA_get0_g(const DSA *dsa);
+/** Retrieve all DSA parameters at once. */
+void DSA_get0_pqg(const DSA *dsa, const BIGNUM **p, const BIGNUM **q,
+		  const BIGNUM **g);
+/** Set all DSA parameters at once. */
+int DSA_set0_pqg(DSA *dsa, BIGNUM *p, BIGNUM *q, BIGNUM *g);
 /** Retrieve RSA key parameters. */
 void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
 		  const BIGNUM **d);
