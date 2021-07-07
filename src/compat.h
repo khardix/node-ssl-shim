@@ -58,6 +58,16 @@ void *CRYPTO_memdup(const void *data, size_t size, const char *file, int line);
 #define OPENSSL_memdup(data, size) \
 	CRYPTO_memdup((data), (size), __FILE__, __LINE__)
 
+/** Provide "secure" aliases.
+ *
+ * See OPENSSL_secure_malloc(3) in newer versions for detail.
+ *
+ * All of these functions/aliases delegate to their simple equivalents
+ * when the secure heap is not configured. They always delegate in this shim.
+ */
+#define OPENSSL_secure_malloc(size) OPENSSL_malloc(size)
+#define OPENSSL_secure_clear_free(data, size) OPENSSL_clear_free((data), (size))
+
 /** Convert n to zero-padded big-endian form. */
 int BN_bn2binpad(const BIGNUM *n, unsigned char *to, int tolen);
 
